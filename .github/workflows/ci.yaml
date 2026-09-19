@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+    types: [opened, reopened, synchronize]
+
+jobs:
+  ci:
+    name: Full CI Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check Prettier
+        run: npx prettier --check "src/**/*.{ts,html,css,scss,json,md}"
+
+      - name: Run Type Check
+        run: npm run typecheck
+
+      - name: Build Production
+        run: npm run build:prod
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: ci
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Production
+        run: npm run build:prod
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/QasriCRM/browser/**
+          generate_release_notes: true
