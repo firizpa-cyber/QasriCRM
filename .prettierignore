@@ -1,0 +1,16 @@
+dist/
+coverage/
+test-reports/
+tmp/
+out-tsc/
+bazel-out/
+node_modules/
+.vscode/
+.idea/
+.prettierignore
+package-lock.json
+package.json
+public/**
+src/assets/icons/*.svg
+
+.angular

@@ -1,0 +1,36 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "scss/at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["reference", "tailwind", "apply", "layer", "config", "theme"]
+      }
+    ],
+    "selector-class-pattern": null,
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ],
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": [
+          "feDropShadow",
+          "router-outlet",
+          "app-root",
+          "tui-textfield",
+          "tui-scrollbar",
+          "tui-icon",
+          "tui-root",
+          "tui-dialog",
+          "tui-dropdown",
+          "tui-preview",
+          "tui-sheet-dialog"
+        ]
+      }
+    ]
+  }
+}
