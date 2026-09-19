@@ -1,12 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const archiver = require('archiver');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const output = fs.createWriteStream(path.join(__dirname, '..', 'dist.zip'));
+import archiver from 'archiver';
+
+const output = fs.createWriteStream(path.join(import.meta.dirname, '..', 'dist.zip'));
 const archive = archiver('zip', { zlib: { level: 9 } });
 
 archive.pipe(output);
-archive.directory(path.join(__dirname, '..', 'dist'), 'dist');
+archive.directory(path.join(import.meta.dirname, '..', 'dist'), 'dist');
 archive.finalize();
 
 console.log('Archive created: dist.zip');
